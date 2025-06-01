@@ -751,6 +751,108 @@ CREATE TABLE students (
 );
 ```
 
+
+
+---
+
+## ✅ 1. ডাটাবেজ তৈরি (Create Database)
+
+```sql
+CREATE DATABASE mydb;
+```
+
+### ডাটাবেজে ঢুকতে (terminal এ):
+
+```bash
+\c mydb
+```
+
+---
+
+## ✅ 2. টেবিল তৈরি (Create Table)
+
+```sql
+CREATE TABLE students (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  age INT,
+  email VARCHAR(255) UNIQUE,
+  dob DATE,
+  contact_no VARCHAR(20),
+  developer BOOLEAN
+);
+```
+
+**SERIAL**: অটো-ইনক্রিমেন্ট হয়।
+**VARCHAR**: টেক্সট ফিল্ড
+**BOOLEAN**: TRUE/FALSE
+
+---
+
+## ✅ 3. ডেটা যুক্ত করা (Insert Data)
+
+```sql
+INSERT INTO students (name, age, email, dob, contact_no, developer)
+VALUES
+('Affnan Sawad', 20, 'affnan@email.com', '2004-08-19', '01540796323', TRUE);
+```
+
+---
+
+## ✅ 4. ডেটা দেখা (Select Data)
+
+```sql
+SELECT * FROM students;
+```
+
+---
+
+## ✅ 5. ডেটা আপডেট করা (Update Data)
+
+```sql
+UPDATE students
+SET age = 21
+WHERE name = 'Affnan Sawad';
+```
+
+---
+
+## ✅ 6. ডেটা ডিলিট করা (Delete Data)
+
+```sql
+DELETE FROM students
+WHERE name = 'Affnan Sawad';
+```
+
+---
+
+## ✅ 7. কিছু কন্ডিশন দিয়ে খোঁজা (Querying with WHERE)
+
+```sql
+SELECT * FROM students WHERE age > 20;
+SELECT * FROM students WHERE developer = TRUE;
+```
+
+---
+
+## ✅ 8. ডেটা sort করা (ORDER BY)
+
+```sql
+SELECT * FROM students ORDER BY age DESC;
+```
+
+---
+
+## ✅ 9. কিছু ডেটা count করা (Aggregate)
+
+```sql
+SELECT COUNT(*) FROM students;
+SELECT AVG(age) FROM students;
+```
+
+
+
+
 **EXAMPLE**
 
 -- 📌 Create the Students table
@@ -806,6 +908,12 @@ WHERE Age = 21 AND NAME = 'Affnan Sawad';
 
 SELECT * FROM Students 
 WHERE Age > 20 OR NAME = 'Affnan Sawad';
+
+--methods
+
+SELECT COUNT(*) FROM students;
+
+SELECT AVG(age) FROM students;
 
 
 ![image](https://github.com/user-attachments/assets/c77c1269-4169-498c-abc6-ac5249a7902e)
