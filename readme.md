@@ -753,28 +753,54 @@ CREATE TABLE students (
 
 **EXAMPLE**
 
-CREATE TABLE Students ( ID SERIAL  PRIMARY KEY , NAME VARCHAR(255) NOT NULL , Age INT , Email VARCHAR(255) UNIQUE , DOB DATE , Contact_No VARCHAR(255) , DEVELOPER BOOLEAN  )
+-- 📌 Create the Students table
+CREATE TABLE Students (
+  ID SERIAL PRIMARY KEY,
+  NAME VARCHAR(255) NOT NULL,
+  Age INT,
+  Email VARCHAR(255) UNIQUE,
+  DOB DATE,
+  Contact_No VARCHAR(255),
+  DEVELOPER BOOLEAN
+);
 
-INSERT INTO Students ( NAME , Age , Email , DOB , Contact_No , Developer ) 
+-- ✅ Insert sample data into Students table
+INSERT INTO Students (NAME, Age, Email, DOB, Contact_No, Developer) 
 VALUES 
-('Affnan Sawad' , 20 , 'affnansawad2002@gmail.com ' , '2004-08-19' , '01540796323' , TRUE  );
-INSERT INTO Students ( NAME , Age , Email , DOB , Contact_No , Developer ) 
+  ('Affnan Sawad', 20, 'affnansawad2002@gmail.com', '2004-08-19', '01540796323', TRUE);
+
+INSERT INTO Students (NAME, Age, Email, DOB, Contact_No, Developer) 
 VALUES 
-('Nusrat Jahan', 22, 'nusrat.jahan99@example.com', '2002-03-15', '01733445566', FALSE),
-('Mehedi Hasan', 23, 'mehedi.hasan88@example.com', '2001-07-09', '01888776655', TRUE),
-('Sadia Khatun', 21, 'sadia.khatun22@example.com', '2003-01-25', '01612345678', FALSE),
-('Rakibul Islam', 24, 'rakibul.islam31@example.com', '2000-11-11', '01911224433', TRUE);
+  ('Nusrat Jahan', 22, 'nusrat.jahan99@example.com', '2002-03-15', '01733445566', FALSE),
+  ('Mehedi Hasan', 23, 'mehedi.hasan88@example.com', '2001-07-09', '01888776655', TRUE),
+  ('Sadia Khatun', 21, 'sadia.khatun22@example.com', '2003-01-25', '01612345678', FALSE),
+  ('Rakibul Islam', 24, 'rakibul.islam31@example.com', '2000-11-11', '01911224433', TRUE);
 
-SELECT * FROM students ;
+-- 📄 View all students
+SELECT * FROM Students;
 
-UPDATE students  SET age = 21 WHERE NAME ='Affnan Sawad' ;
+-- 🔄 Update student's age
+UPDATE Students 
+SET Age = 21 
+WHERE NAME = 'Affnan Sawad';
 
-DELETE FROM students WHERE NAME = 'Rakibul Islam' ;
 
--- QUEIRS
-SELECT * FROM students WHERE age >  22 ;
-SELECT * FROM students WHERE age =  21 AND NAME = 'Affnan Sawad';
-SELECT * FROM students WHERE age > 20 OR NAME = 'Affnan Sawad';
+-- ❌ Delete a student record
+DELETE FROM Students 
+WHERE NAME = 'Rakibul Islam';
+
+-- 1️⃣ Get students older than 22
+SELECT * FROM Students 
+WHERE Age > 22;
+
+-- 2️⃣ Get Affnan Sawad with age 21
+SELECT * FROM Students 
+WHERE Age = 21 AND NAME = 'Affnan Sawad';
+
+-- 3️⃣ Get students older than 20 OR named Affnan Sawad
+SELECT * FROM Students 
+WHERE Age > 20 OR NAME = 'Affnan Sawad';
+
 
 ![image](https://github.com/user-attachments/assets/c77c1269-4169-498c-abc6-ac5249a7902e)
 
