@@ -777,27 +777,33 @@ VALUES
   ('Rakibul Islam', 24, 'rakibul.islam31@example.com', '2000-11-11', '01911224433', TRUE);
 
 -- 📄 View all students
+
 SELECT * FROM Students;
 
 -- 🔄 Update student's age
+
 UPDATE Students 
 SET Age = 21 
 WHERE NAME = 'Affnan Sawad';
 
 
 -- ❌ Delete a student record
+
 DELETE FROM Students 
 WHERE NAME = 'Rakibul Islam';
 
 -- 1️⃣ Get students older than 22
+
 SELECT * FROM Students 
 WHERE Age > 22;
 
 -- 2️⃣ Get Affnan Sawad with age 21
+
 SELECT * FROM Students 
 WHERE Age = 21 AND NAME = 'Affnan Sawad';
 
 -- 3️⃣ Get students older than 20 OR named Affnan Sawad
+
 SELECT * FROM Students 
 WHERE Age > 20 OR NAME = 'Affnan Sawad';
 
