@@ -919,6 +919,206 @@ SELECT AVG(age) FROM students;
 ![image](https://github.com/user-attachments/assets/c77c1269-4169-498c-abc6-ac5249a7902e)
 
 
+
+
+
+
+---
+
+## ✅ **1. ALTER TABLE: টেবিল Modify করা**
+
+### ➤ নতুন কলাম যোগ:
+
+```sql
+ALTER TABLE students ADD COLUMN gender VARCHAR(10);
+```
+
+> `students` টেবিলে `gender` নামের নতুন কলাম যোগ হয়েছে।
+
+### ➤ কলামের ডেটাটাইপ পরিবর্তন:
+
+```sql
+ALTER TABLE students ALTER COLUMN age TYPE FLOAT;
+```
+
+> `age` এর type এখন `FLOAT` হয়ে যাবে।
+
+### ➤ কলাম ডিলিট:
+
+```sql
+ALTER TABLE students DROP COLUMN gender;
+```
+
+---
+
+## ✅ **2. PRIMARY KEY, UNIQUE কীভাবে ALTER এ সেট করবো**
+
+### ➤ Primary Key সেট:
+
+```sql
+ALTER TABLE students ADD PRIMARY KEY (id);
+```
+
+### ➤ Unique Constraint:
+
+```sql
+ALTER TABLE students ADD CONSTRAINT unique_email UNIQUE (email);
+```
+
+---
+
+## ✅ **3. SELECT Queries – Column Alias ও ORDER BY**
+
+### ➤ Column Alias:
+
+```sql
+SELECT name AS student_name, age FROM students;
+```
+
+> `name` কলামটিকে `student_name` নামে দেখাবে।
+
+### ➤ ORDER BY:
+
+```sql
+SELECT * FROM students ORDER BY age DESC;
+```
+
+> Age অনুযায়ী বড় থেকে ছোটভাবে সাজাবে।
+
+---
+
+## ✅ **4. WHERE, Logical Operators (AND, OR), Comparison Operators**
+
+### ➤ WHERE:
+
+```sql
+SELECT * FROM students WHERE age > 20;
+```
+
+### ➤ AND / OR:
+
+```sql
+SELECT * FROM students WHERE age > 20 AND developer = TRUE;
+SELECT * FROM students WHERE age > 20 OR developer = TRUE;
+```
+
+---
+
+## ✅ **5. Scalar & Aggregate Functions**
+
+### ➤ Scalar Function (একটি Row-এর উপর কাজ করে):
+
+```sql
+SELECT UPPER(name), LENGTH(name) FROM students;
+```
+
+### ➤ Aggregate Functions (পুরো টেবিলের উপর কাজ):
+
+```sql
+SELECT COUNT(*), AVG(age), MAX(age), MIN(age) FROM students;
+```
+
+---
+
+## ✅ **6. NOT, NULL, COALESCE (Null-Coalescing Operator)**
+
+### ➤ NOT:
+
+```sql
+SELECT * FROM students WHERE NOT developer;
+```
+
+### ➤ NULL চেক:
+
+```sql
+SELECT * FROM students WHERE email IS NULL;
+SELECT * FROM students WHERE email IS NOT NULL;
+```
+
+### ➤ COALESCE:
+
+```sql
+SELECT name, COALESCE(email, 'No Email') FROM students;
+```
+
+> `email` যদি NULL হয়, তাহলে 'No Email' দেখাবে।
+
+---
+
+## ✅ **7. IN, BETWEEN, LIKE, ILIKE**
+
+### ➤ IN:
+
+```sql
+SELECT * FROM students WHERE age IN (20, 22, 25);
+```
+
+### ➤ BETWEEN:
+
+```sql
+SELECT * FROM students WHERE age BETWEEN 20 AND 23;
+```
+
+### ➤ LIKE (case-sensitive):
+
+```sql
+SELECT * FROM students WHERE name LIKE 'A%';  -- A দিয়ে শুরু
+```
+
+### ➤ ILIKE (case-insensitive):
+
+```sql
+SELECT * FROM students WHERE name ILIKE 'a%';
+```
+
+---
+
+## ✅ **8. Pagination: LIMIT ও OFFSET**
+
+### ➤ প্রথম ৫টা রেকর্ড:
+
+```sql
+SELECT * FROM students LIMIT 5;
+```
+
+### ➤ ৬-১০ নম্বর রেকর্ড:
+
+```sql
+SELECT * FROM students LIMIT 5 OFFSET 5;
+```
+
+---
+
+## ✅ **9. UPDATE**
+
+### ➤ সাধারণ Update:
+
+```sql
+UPDATE students SET age = 21 WHERE name = 'Affnan Sawad';
+```
+
+### ➤ একসাথে একাধিক Update:
+
+```sql
+UPDATE students SET age = 22, developer = FALSE WHERE id = 3;
+```
+
+---
+
+## ✅ **10. DELETE**
+
+```sql
+DELETE FROM students WHERE age < 20;
+```
+
+---
+
+
+
+---
+
+
+
 ---
 
 
