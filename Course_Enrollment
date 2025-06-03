@@ -1,0 +1,107 @@
+CREATE  TABLE Student( id SERIAL PRIMARY KEY , NAME VARCHAR(255) NOT NULL , Age INT , dob DATE , Email VARCHAR(255) UNIQUE  , developer BOOLEAN );
+
+INSERT INTO Student (NAME, Age, dob, Email, developer) VALUES
+('Affnan Sawad', 20, '2004-08-19', 'affnan.sawad@example.com', TRUE),
+('Nusrat Jahan', 22, '2002-03-15', 'nusrat.jahan@example.com', FALSE),
+('Mehedi Hasan', 23, '2001-07-09', 'mehedi.hasan@example.com', TRUE),
+('Sadia Khatun', 21, '2003-01-25', 'sadia.khatun@example.com', FALSE),
+('Rakibul Islam', 24, '2000-11-11', 'rakibul.islam@example.com', TRUE),
+('Shamim Hossain', 25, '1999-10-20', 'shamim.hossain@example.com', TRUE),
+('Farzana Mim', 22, '2002-06-12', 'farzana.mim@example.com', FALSE),
+('Jahidul Islam', 23, '2001-09-30', 'jahidul.islam@example.com', TRUE),
+('Lamia Akter', 21, '2003-04-05', 'lamia.akter@example.com', FALSE),
+('Arif Hossain', 20, '2004-01-10', 'arif.hossain@example.com', TRUE);
+
+
+
+
+
+CREATE TABLE Courses( id SERIAL PRIMARY KEY , NAME VARCHAR(200) UNIQUE , Credits INT   )  
+
+INSERT INTO Courses(NAME , Credits) VALUES ( 'C' , 3) , ('C++' , 3),('Data Structure', 3) , ( 'Algorithom' , 3 ) , ('AI',3) , ('SD' , 2  ),('MATH1', 3) ;   
+
+
+
+
+CREATE TABLE Teachers ( id SERIAL PRIMARY KEY , NAME VARCHAR(255) NOT NULL , Desigination VARCHAR(255) NOT NULL )  
+
+INSERT INTO Teachers (  NAME , Desigination   )    VALUES ( 'Nazim Uddin' , 'Lecturer'  ) , ( 'Yeasir Arafat' , 'Associate Professor'  ) , (  'Warid Bin Azad' , 'Adjunct Lecturer'  ) , ( ' Khaled Uddin ' , 'Assistant Lecturer'  )  ;
+
+
+
+
+
+CREATE TABLE Enrollment (
+    id SERIAL PRIMARY KEY,
+    student_id INT REFERENCES Student(id),
+    course_id INT REFERENCES Courses(id),
+    enroll_date DATE DEFAULT CURRENT_DATE
+);
+
+INSERT INTO Enrollment (student_id, course_id) VALUES
+(1, 1), 
+(1, 2),  
+(2, 1),  
+(2, 3), 
+(3, 3),  
+(3, 4),  
+(4, 5),  
+(5, 6),  
+(6, 7),  
+(7, 2);  
+
+
+CREATE TABLE Over_All_Table (
+    id SERIAL PRIMARY KEY,
+    student_id INT REFERENCES Student(id),
+    course_id INT REFERENCES Courses(id),
+    teachers_id INT REFERENCES Teachers(id),
+    enroll_date DATE DEFAULT CURRENT_DATE
+);
+
+
+
+
+-- SELECT 
+SELECT * FROM Student ;
+SELECT * FROM teachers ;
+SELECT * FROM Courses  ;
+SELECT * FROM Enrollment
+
+--QUERIES
+
+SELECT NAME FROM teachers WHERE desigination = 'Lecturer'
+SELECT NAME FROM Courses  WHERE  credits < 3
+SELECT MAX(age) FROM student
+SELECT MIN(age) FROM student
+SELECT AVG(age) FROM student
+
+SELECT 
+    s.NAME AS student_name,
+    c.NAME AS course_name,
+   
+    e.enroll_date
+FROM 
+    Enrollment e
+JOIN Student s ON e.student_id = s.id
+JOIN Courses c ON e.course_id = c.id;
+
+
+
+
+SELECT 
+   
+    c.NAME AS course_name,
+    COUNT(*) AS Total_Students
+FROM 
+    Enrollment e
+
+JOIN Courses c ON e.course_id = c.id
+GROUP BY c.NAME;
+
+
+
+
+
+
+
