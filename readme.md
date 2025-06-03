@@ -1113,6 +1113,232 @@ DELETE FROM students WHERE age < 20;
 
 ---
 
+# PostgreSQL Intermediate Topics 
+
+---
+
+## ✅ **50-1: Date and Date Functions in PostgreSQL**
+
+### ✔ Description:
+
+PostgreSQL-এ DATE ফাংশন ব্যবহার করে তারিখ-সংক্রান্ত কাজ করা যায়। কিছু গুরুত্বপূর্ণ Date ফাংশন:
+
+* `CURRENT_DATE` : বর্তমান তারিখ
+* `NOW()` : বর্তমান তারিখ এবং সময়
+* `AGE(date)` : নির্দিষ্ট তারিখ থেকে বর্তমান তারিখ পর্যন্ত সময় বের করা
+* `EXTRACT(field FROM date)` : বছর, মাস, দিন আলাদা করা যায়
+
+### ✔ Example:
+
+```sql
+SELECT CURRENT_DATE;
+SELECT NOW();
+SELECT AGE('2000-05-15');
+SELECT EXTRACT(YEAR FROM DATE '2000-05-15') AS birth_year;
+```
+
+### ✔ Explanation:
+
+* `CURRENT_DATE` এখনকার তারিখ
+* `NOW()` এখনকার তারিখ ও সময়
+* `AGE()` দেয় জন্মদিন থেকে কত বছর, মাস ও দিন হয়েছে
+* `EXTRACT()` দিয়ে সাল, মাস, দিন আলাদা করা যায়
+
+---
+
+## ✅ **50-2: GROUP BY and HAVING**
+
+### ✔ Description:
+
+* `GROUP BY`: একই ধরনের ডেটা একত্র করে
+* `HAVING`: গ্রুপ করা ডেটা-র ওপর শর্ত দেয়
+
+### ✔ Example:
+
+```sql
+SELECT developer, COUNT(*)
+FROM students
+GROUP BY developer;
+
+SELECT developer, COUNT(*)
+FROM students
+GROUP BY developer
+HAVING COUNT(*) > 1;
+```
+
+### ✔ Explanation:
+
+* Developer true/false হিসেবে গ্রুপিং করা হয়েছে
+* `HAVING` দিয়ে শুধু সেই গ্রুপ দেখায় যেগুলোর count 1 এর বেশি
+
+---
+
+## ✅ **50-3: Foreign Key Constraint**
+
+### ✔ Description:
+
+Foreign Key ব্যবহার করে এক টেবিলের রেকর্ডকে অন্য টেবিলের সাথে সংযুক্ত করা যায়। এটি ডেটার ইনটিগ্রিটি বজায় রাখে।
+
+### ✔ Example:
+
+```sql
+CREATE TABLE departments (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100)
+);
+
+CREATE TABLE employees (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100),
+  dept_id INT REFERENCES departments(id)
+);
+```
+
+### ✔ Explanation:
+
+`employees` টেবিলের `dept_id` কলামটি `departments` টেবিলের `id` এর foreign key.
+
+---
+
+## ✅ **50-4: Referential Integrity - Insert Behavior**
+
+### ✔ Description:
+
+Foreign key constraint থাকলে, এমন data insert করা যাবে না যা parent টেবিলে নেই।
+
+### ✔ Example:
+
+```sql
+INSERT INTO employees (name, dept_id)
+VALUES ('Rahim', 1); -- যদি departments table-এ id = 1 না থাকে, insert হবে না
+```
+
+---
+
+## ✅ **50-5: Referential Integrity - Delete Behavior**
+
+### ✔ Description:
+
+Parent টেবিল থেকে data delete করলে child টেবিলেও তার প্রভাব পড়ে। CASCADE বা RESTRICT দিয়ে নিয়ন্ত্রণ করা যায়।
+
+### ✔ Example:
+
+```sql
+CREATE TABLE employees (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100),
+  dept_id INT REFERENCES departments(id) ON DELETE CASCADE
+);
+```
+
+### ✔ Explanation:
+
+যদি `departments` থেকে কোনো ডিপার্টমেন্ট ডিলিট হয়, তবে সেই ডিপার্টমেন্টের সব `employees`-ও ডিলিট হবে।
+
+---
+
+## ✅ **50-6: INNER JOIN**
+
+### ✔ Description:
+
+INNER JOIN ব্যবহার করে দুটি টেবিলের মিল থাকা ডেটা একত্রে দেখানো হয়।
+
+### ✔ Example:
+
+```sql
+SELECT employees.name, departments.name
+FROM employees
+INNER JOIN departments ON employees.dept_id = departments.id;
+```
+
+---
+
+## ✅ **50-7: LEFT JOIN & RIGHT JOIN**
+
+### ✔ LEFT JOIN:
+
+```sql
+SELECT employees.name, departments.name
+FROM employees
+LEFT JOIN departments ON employees.dept_id = departments.id;
+```
+
+* সব `employees` দেখাবে, এমনকি যাদের কোনো department নাই
+
+### ✔ RIGHT JOIN:
+
+```sql
+SELECT employees.name, departments.name
+FROM employees
+RIGHT JOIN departments ON employees.dept_id = departments.id;
+```
+
+* সব `departments` দেখাবে, এমনকি যাদের কোনো employee নাই
+
+---
+
+## ✅ **50-8: FULL JOIN, CROSS JOIN, NATURAL JOIN**
+
+### ✔ FULL JOIN:
+
+```sql
+SELECT *
+FROM employees
+FULL JOIN departments ON employees.dept_id = departments.id;
+```
+
+* দুই টেবিলের সব ডেটা দেখায়
+
+### ✔ CROSS JOIN:
+
+```sql
+SELECT *
+FROM employees
+CROSS JOIN departments;
+```
+
+* প্রতিটি রেকর্ডের জন্য প্রতিটি কম্বিনেশন দেখায়
+
+### ✔ NATURAL JOIN:
+
+```sql
+SELECT *
+FROM employees
+NATURAL JOIN departments;
+```
+
+* একই নামের কলামের উপর ভিত্তি করে অটো JOIN করে
+
+---
+
+## ✅ **50-9: Pagination with LIMIT OFFSET & DELETE**
+
+### ✔ Example:
+
+```sql
+SELECT * FROM students
+LIMIT 5 OFFSET 10;
+
+DELETE FROM students WHERE age < 18;
+```
+
+* প্রথম কুয়েরি ১১ নম্বর রেকর্ড থেকে ৫টা রেকর্ড দেখাবে
+* দ্বিতীয় কুয়েরি ১৮ বছরের নিচের স্টুডেন্টদের ডিলিট করবে
+
+---
+
+## ✅ **50-10: UPDATE Operator**
+
+### ✔ Example:
+
+```sql
+UPDATE students
+SET age = 21
+WHERE name = 'Affnan Sawad';
+```
+
+* এই কুয়েরি নির্দিষ্ট ব্যক্তির বয়স আপডেট করবে
+
 
 
 ---
