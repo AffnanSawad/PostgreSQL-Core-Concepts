@@ -1453,19 +1453,101 @@ Parent ডিলিট করতে পারবে না, যতক্ষণ c
 
 ## ✅ **50-6: INNER JOIN**
 
-### ✔ Description:
+---
 
-INNER JOIN ব্যবহার করে দুটি টেবিলের মিল থাকা ডেটা একত্রে দেখানো হয়।
+## 🟩 **Topic 6: INNER JOIN – দুটি টেবিলের সম্পর্কিত ডেটা একসাথে দেখানো**
 
-### ✔ Example:
+### 🔶 সংজ্ঞা:
+
+`INNER JOIN` ব্যবহার করা হয় **দুটি (বা তার বেশি) টেবিলের মধ্যে মিল পাওয়া রেকর্ডগুলোকে একসাথে দেখানোর জন্য**।
+যেসব রেকর্ডে **matching condition (যেমন foreign key)** মেলে, শুধু সেই রেকর্ডগুলোই দেখানো হয়।
+
+---
+
+## 🔧 Syntax:
 
 ```sql
-SELECT employees.name, departments.name
-FROM employees
-INNER JOIN departments ON employees.dept_id = departments.id;
+SELECT column_list
+FROM table1
+INNER JOIN table2
+ON table1.common_column = table2.common_column;
 ```
 
 ---
+
+## 🧠 উদাহরণ:
+
+### 🔸 Step 1: Departments টেবিল (Parent Table)
+
+```sql
+CREATE TABLE departments (
+  dept_id SERIAL PRIMARY KEY,
+  dept_name VARCHAR(100)
+);
+```
+
+### 🔸 Step 2: Students টেবিল (Child Table)
+
+```sql
+CREATE TABLE students (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100),
+  dept_id INT,
+  FOREIGN KEY (dept_id) REFERENCES departments(dept_id)
+);
+```
+
+---
+
+### 🔸 Step 3: কিছু ডেটা ইনসার্ট করি
+
+```sql
+-- Departments
+INSERT INTO departments (dept_name) VALUES ('CSE'), ('EEE'), ('BBA');
+
+-- Students
+INSERT INTO students (name, dept_id) VALUES 
+('Affnan', 1),
+('Nusrat', 1),
+('Rakib', 2),
+('Mitu', NULL);
+```
+
+---
+
+### 🔸 Step 4: INNER JOIN করে দেখা
+
+```sql
+SELECT students.name AS student_name, departments.dept_name AS department
+FROM students
+INNER JOIN departments
+ON students.dept_id = departments.dept_id;
+```
+
+---
+
+### 🔍 ফলাফল:
+
+| student\_name | department |
+| ------------- | ---------- |
+| Affnan        | CSE        |
+| Nusrat        | CSE        |
+| Rakib         | EEE        |
+
+**Note:**
+
+* এখানে **Mitu** দেখানো হয়নি কারণ তার `dept_id` NULL → কোনো match নাই → তাই exclude হয়েছে।
+* INNER JOIN শুধুমাত্র **matching value** থাকলেই দেখায়।
+
+---
+
+## ✅ সংক্ষেপে মনে রাখার কৌশল:
+
+**INNER JOIN = যেসব রেকর্ড দুই টেবিলে মিলে, শুধু সেগুলো দেখাও**
+
+---
+
+
 
 ## ✅ **50-7: LEFT JOIN & RIGHT JOIN**
 
