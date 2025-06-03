@@ -1299,60 +1299,7 @@ VALUES ('Rahim', 1); -- যদি departments table-এ id = 1 না থাক�
 
 ---
 
-## 🟩 **Topic 3: Foreign Key দিয়ে Table-এর মধ্যে সম্পর্ক তৈরি (50-3)**
 
-### 🔶 সংজ্ঞা:
-
-`FOREIGN KEY` হলো এমন একটি কলাম (বা কলামের সমষ্টি), যা অন্য একটি টেবিলের `PRIMARY KEY`-কে রেফার করে। এটি দুটি টেবিলের মধ্যে সম্পর্ক তৈরি করে এবং ডেটা কনসিসটেন্সি বজায় রাখে।
-
----
-
-### 🧠 উদাহরণ:
-
-ধরা যাক, আমাদের দুটি টেবিল:
-
-#### 1. Departments টেবিল (Parent টেবিল):
-
-```sql
-CREATE TABLE departments (
-  dept_id SERIAL PRIMARY KEY,
-  dept_name VARCHAR(100)
-);
-```
-
-#### 2. Students টেবিল (Child টেবিল):
-
-```sql
-CREATE TABLE students (
-  id SERIAL PRIMARY KEY,
-  name VARCHAR(100),
-  dept_id INT,
-  FOREIGN KEY (dept_id) REFERENCES departments(dept_id)
-);
-```
-
-### 🔍 ব্যাখ্যা:
-
-* `students` টেবিলের `dept_id` কলামটি `departments` টেবিলের `dept_id`-কে রেফার করছে।
-* এর ফলে, যদি `departments` টেবিলে কোনো `dept_id` না থাকে, তাহলে তা `students` টেবিলে insert করা যাবে না।
-
----
-
-## ✅ উদাহরণ Insert:
-
-```sql
-INSERT INTO departments (dept_name) VALUES ('CSE'), ('EEE');
-
--- valid student because dept_id 1 exists
-INSERT INTO students (name, dept_id) VALUES ('Affnan Sawad', 1);
-
--- invalid student, because dept_id 99 doesn't exist
-INSERT INTO students (name, dept_id) VALUES ('Wrong Student', 99); -- ❌ Error
-```
-
----
-
-## 🟩 **Topic 4: Referential Integrity During Data Insertion (50-4)**
 
 ### 🔶 সংজ্ঞা:
 
