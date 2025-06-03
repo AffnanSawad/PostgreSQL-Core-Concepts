@@ -1551,25 +1551,121 @@ ON students.dept_id = departments.dept_id;
 
 ## ✅ **50-7: LEFT JOIN & RIGHT JOIN**
 
-### ✔ LEFT JOIN:
+ভালো! আমরা এখন PostgreSQL-এর **Topic 6: Joining Tables with INNER JOIN** শেষ করেছি।
+
+এখন আসি 👉
+
+---
+
+## 🟪 **Topic 7: Understanding Left and Right Joins**
+
+### 🔹 ১. LEFT JOIN কী?
+
+**LEFT JOIN** এমন একটি JOIN যেটি **বাম পাশে (Left Table)** যেসব ডেটা আছে, **সবগুলোই দেখায়**, এবং ডান পাশে মিল না থাকলে **NULL দেখায়**।
+
+---
+
+### ✅ Syntax:
 
 ```sql
-SELECT employees.name, departments.name
-FROM employees
-LEFT JOIN departments ON employees.dept_id = departments.id;
+SELECT *
+FROM students
+LEFT JOIN departments
+ON students.dept_id = departments.dept_id;
 ```
 
-* সব `employees` দেখাবে, এমনকি যাদের কোনো department নাই
+---
 
-### ✔ RIGHT JOIN:
+### 📘 ধরো তোমার দুটি টেবিল:
+
+#### 🔸 `students` টেবিল:
+
+| id | name   | dept\_id |
+| -- | ------ | -------- |
+| 1  | Affnan | 1        |
+| 2  | Nusrat | 1        |
+| 3  | Rakib  | 2        |
+| 4  | Mitu   | NULL     |
+
+#### 🔸 `departments` টেবিল:
+
+| dept\_id | dept\_name |
+| -------- | ---------- |
+| 1        | CSE        |
+| 2        | EEE        |
+
+---
+
+### 🧾 এখন যদি আমরা এই কুয়েরি চালাই:
 
 ```sql
-SELECT employees.name, departments.name
-FROM employees
-RIGHT JOIN departments ON employees.dept_id = departments.id;
+SELECT students.name, departments.dept_name
+FROM students
+LEFT JOIN departments
+ON students.dept_id = departments.dept_id;
 ```
 
-* সব `departments` দেখাবে, এমনকি যাদের কোনো employee নাই
+### 🔍 ফলাফল হবে:
+
+| name   | dept\_name |
+| ------ | ---------- |
+| Affnan | CSE        |
+| Nusrat | CSE        |
+| Rakib  | EEE        |
+| Mitu   | NULL       |
+
+> 🔑 কারণ `Mitu`-র কোনো `dept_id` নেই (NULL), তাই ডান পাশে মিল পাওয়া যায়নি — কিন্তু `LEFT JOIN` হবার কারণে `Mitu` কে দেখিয়েছে, আর `dept_name` হিসেবে `NULL`।
+
+---
+
+### 🔹 ২. RIGHT JOIN কী?
+
+**RIGHT JOIN** হলো উল্টো — **ডান পাশে (Right Table)** যেসব ডেটা আছে, **সবগুলোই দেখায়**, বাম পাশে মিল না থাকলে **NULL দেখায়**।
+
+---
+
+### ✅ Syntax:
+
+```sql
+SELECT *
+FROM students
+RIGHT JOIN departments
+ON students.dept_id = departments.dept_id;
+```
+
+---
+
+### ✨ ধরো departments টেবিলে আরেকটা ডিপার্টমেন্ট আছে, যেটিতে কোনো student নাই:
+
+| dept\_id | dept\_name |
+| -------- | ---------- |
+| 1        | CSE        |
+| 2        | EEE        |
+| 3        | BBA        |
+
+তখন RIGHT JOIN দিলে:
+
+| name   | dept\_name |
+| ------ | ---------- |
+| Affnan | CSE        |
+| Nusrat | CSE        |
+| Rakib  | EEE        |
+| NULL   | BBA        |
+
+> 🔑 কারণ BBA ডিপার্টমেন্টে কোনো স্টুডেন্ট নেই, তবুও **RIGHT JOIN** এটা দেখিয়েছে।
+
+---
+
+## 📌 সংক্ষেপে মনে রাখো:
+
+| JOIN Type  | দেখাবে কোনটা সব | না মেললে |
+| ---------- | --------------- | -------- |
+| INNER JOIN | শুধু মিল থাকলে  | বাদ যাবে |
+| LEFT JOIN  | বাম পাশ সব      | NULL হবে |
+| RIGHT JOIN | ডান পাশ সব      | NULL হবে |
+
+---
+
 
 ---
 
