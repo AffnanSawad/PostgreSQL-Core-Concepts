@@ -1,0 +1,64 @@
+CREATE  TABLE books( id SERIAL PRIMARY KEY , Title VARCHAR(200) UNIQUE , Author VARCHAR(100) NOT NULL , Price NUMERIC(10,2) , Stock INT , Published_Year INT   )
+
+-- Inserting 5 sample records
+INSERT INTO books (Title, Author, Price, Stock, Published_Year) VALUES
+('The Great Gatsby', 'F. Scott Fitzgerald', 15.99, 10, 1925),
+('To Kill a Mockingbird', 'Harper Lee', 12.50, 5, 1960),
+('1984', 'George Orwell', 13.99, 7, 1949),
+('Pride and Prejudice', 'Jane Austen', 10.00, 12, 1813),
+('The Alchemist', 'Paulo Coelho', 14.95, 8, 1988);
+
+
+--CUSTOMERS
+CREATE TABLE Customers( id SERIAL PRIMARY KEY , NAME VARCHAR(255) ,  Email VARCHAR(200) UNIQUE , Joined_Date DATE   ) 
+
+-- Insert 3 sample values
+INSERT INTO Customers (NAME, Email, Joined_Date) VALUES
+('Alice Johnson', 'alice@example.com', '2023-01-15'),
+('Bob Smith', 'bob@example.com', '2022-11-10'),
+('Charlie Davis', 'charlie@example.com', '2024-05-20');
+
+
+CREATE TABLE Orders ( id SERIAL PRIMARY KEY , customer_id INT REFERENCES Customers(id) , book_id INT REFERENCES books(id) , Quantity INT , Order_Date DATE   )
+
+INSERT INTO Orders (customer_id, book_id, Quantity, Order_Date) 
+VALUES (1, 2, 1, '2023-5-12') 
+INSERT INTO Orders (customer_id, book_id, Quantity, Order_Date) 
+VALUES ( 2 , 2 , 2, '2023-05-17' ) 
+INSERT INTO Orders (customer_id, book_id, Quantity, Order_Date) 
+VALUES ( 3 , 1 , 1, '2023-05-17' )
+INSERT INTO Orders (customer_id, book_id, Quantity, Order_Date) 
+VALUES ( 2 , 3 , 1, '2023-03-17' )
+INSERT INTO Orders (customer_id, book_id, Quantity, Order_Date) 
+VALUES ( 1 , 1 , 1, '2021-03-17' )
+INSERT INTO Orders (customer_id, book_id, Quantity, Order_Date) 
+VALUES ( 3 , 5 , 1, '2021-03-17' )
+
+
+
+--SELECT
+SELECT  * FROM books
+SELECT  * FROM Customers
+SELECT * FROM orders
+
+
+SELECT title, author, published_year, price
+FROM books
+WHERE price = (SELECT MAX(price) FROM books);
+
+
+SELECT  customer_id , COUNT( * ) quantity  FROM orders   GROUP BY customer_id
+
+SELECT customer_id, COUNT(*) AS quantity
+FROM orders
+GROUP BY customer_id
+HAVING COUNT(*) > 1;
+
+SELECT * FROM books WHERE published_year > 1950
+
+SELECT customer_id , COUNT(*) book_id FROM orders GROUP BY customer_id
+
+SELECT customer_id , COUNT(*) book_id FROM orders GROUP BY customer_id HAVING COUNT(*) < 2
+
+SELECT * FROM orders  WHERE quantity = 1
+
