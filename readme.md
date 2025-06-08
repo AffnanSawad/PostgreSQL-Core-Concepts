@@ -2119,16 +2119,6 @@ SELECT * FROM employees WHERE name = 'Affnan';
 ````
 
 
-OVERALL TOPICS :
-
-টপিক	কী বোঝায়	ছোট উদাহরণ
-Subquery	কুয়েরির ভিতরে কুয়েরি	WHERE salary > (SELECT AVG(salary))
-View	virtual table	CREATE VIEW ...
-Function	ইনপুট-নির্ভর রেজাল্ট	get_discount(1000)
-Procedure	action-runner	CALL insert_student(...)
-Trigger	অটো ইভেন্ট	AFTER INSERT ...
-Index	সার্চ ফাস্ট	CREATE INDEX ...
-
 
 ------------------------------
 
